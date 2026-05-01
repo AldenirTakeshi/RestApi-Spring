@@ -1,5 +1,6 @@
 package br.com.takeshi.spring_boot_rest.controllers;
 
+import br.com.takeshi.spring_boot_rest.exception.ResourceNotFoundException;
 import br.com.takeshi.spring_boot_rest.model.UserModel;
 import br.com.takeshi.spring_boot_rest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -25,7 +27,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserModel findById(@PathVariable("id") String id){
+    public UserModel findById(@PathVariable("id") Long id){
         return userService.findById(id);
     }
 
@@ -35,7 +37,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public UserModel updateUser(@PathVariable("id") String id, @RequestBody UserModel user){
+    public UserModel updateUser(@PathVariable("id") Long id, @RequestBody UserModel user){
         return userService.updateUser(id, user);
     }
 

@@ -1,6 +1,6 @@
 package br.com.takeshi.spring_boot_rest.service;
 
-import br.com.takeshi.spring_boot_rest.exception.UnsupportedMathOperationException;
+import br.com.takeshi.spring_boot_rest.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,30 +10,30 @@ import java.util.List;
 public class MathService {
 
     public Double sum(String number1, String number2){
-        if(!isNumeric(number1) || !isNumeric(number2)) throw new UnsupportedMathOperationException("Please set a numeric value!");
+        if(!isNumeric(number1) || !isNumeric(number2)) throw new ResourceNotFoundException("Please set a numeric value!");
         return convertToDouble(number1) + convertToDouble(number2);
     }
 
     public  Double subtraction(String number1, String number2){
-        if(!isNumeric(number1) || !isNumeric(number2)) throw new UnsupportedMathOperationException("Please set a numeric value!");
+        if(!isNumeric(number1) || !isNumeric(number2)) throw new ResourceNotFoundException("Please set a numeric value!");
         return convertToDouble(number1) - convertToDouble(number2);
     }
 
     public Double multiplication(String number1, String number2){
-        if(!isNumeric(number1) || !isNumeric(number2)) throw new UnsupportedMathOperationException("Please  set a number value");
+        if(!isNumeric(number1) || !isNumeric(number2)) throw new ResourceNotFoundException("Please  set a number value");
         return convertToDouble(number1) * convertToDouble(number2);
     }
 
     public Double division(String number1, String number2){
-        if(!isNumeric(number1) || !isNumeric(number2)) throw new UnsupportedMathOperationException("Please  set a number value");
+        if(!isNumeric(number1) || !isNumeric(number2)) throw new ResourceNotFoundException("Please  set a number value");
         return convertToDouble(number1) / convertToDouble(number2);    }
 
     public Double mean(String number1, String number2){
-        if(!isNumeric(number1) || !isNumeric(number2)) throw new UnsupportedMathOperationException("Please  set a number value");
+        if(!isNumeric(number1) || !isNumeric(number2)) throw new ResourceNotFoundException("Please  set a number value");
         return convertToDouble(number1) * convertToDouble(number2) / 2;    }
 
     public List<Double> squareRoot(String number1, String number2){
-        if(!isNumeric(number1) || !isNumeric(number2)) throw new UnsupportedMathOperationException("Please  set a number value");
+        if(!isNumeric(number1) || !isNumeric(number2)) throw new ResourceNotFoundException("Please  set a number value");
         double n1 = convertToDouble(number1);
         double n2 = convertToDouble(number2);
 
@@ -59,7 +59,7 @@ public class MathService {
     }
 
     public static Double convertToDouble(String strNumber) {
-        if(strNumber == null || strNumber.isEmpty()) throw new UnsupportedMathOperationException("Please set a numeric value!");
+        if(strNumber == null || strNumber.isEmpty()) throw new ResourceNotFoundException("Please set a numeric value!");
         String number = strNumber.replace(",","."); // R$ 5,00
         return Double.parseDouble(number);
     }

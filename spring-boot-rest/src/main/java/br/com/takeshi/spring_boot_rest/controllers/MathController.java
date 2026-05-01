@@ -1,12 +1,10 @@
 package br.com.takeshi.spring_boot_rest.controllers;
 
-import br.com.takeshi.spring_boot_rest.exception.UnsupportedMathOperationException;
 import br.com.takeshi.spring_boot_rest.service.MathService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
