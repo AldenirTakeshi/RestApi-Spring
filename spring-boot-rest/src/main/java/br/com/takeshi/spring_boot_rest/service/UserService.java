@@ -3,13 +3,13 @@ package br.com.takeshi.spring_boot_rest.service;
 import br.com.takeshi.spring_boot_rest.exception.ResourceNotFoundException;
 import br.com.takeshi.spring_boot_rest.model.UserModel;
 import br.com.takeshi.spring_boot_rest.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Logger;
 
 @Service
 public class UserService {
@@ -18,7 +18,7 @@ public class UserService {
     UserRepository userRepository;
 
     private final AtomicLong counter = new AtomicLong();
-    private Logger logger = Logger.getLogger(UserService.class.getName());
+    private Logger logger = LoggerFactory.getLogger(UserService.class.getName());
 
     public UserModel createUser(UserModel user){
         logger.info("Create one User!");
