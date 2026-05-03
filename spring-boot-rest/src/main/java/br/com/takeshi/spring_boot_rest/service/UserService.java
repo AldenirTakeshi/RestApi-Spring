@@ -1,11 +1,14 @@
 package br.com.takeshi.spring_boot_rest.service;
 
+import br.com.takeshi.spring_boot_rest.data.dto.UserDto;
 import br.com.takeshi.spring_boot_rest.exception.ResourceNotFoundException;
-import br.com.takeshi.spring_boot_rest.model.UserModel;
+import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseListObject;
+import static br.com.takeshi.spring_boot_rest.mapper.ObjectMapper.parseObject;
+
+import br.com.takeshi.spring_boot_rest.model.UserEntity;
 import br.com.takeshi.spring_boot_rest.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,38 +17,59 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class UserService {
 
-    @Autowired
-    UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     private final AtomicLong counter = new AtomicLong();
-    private Logger logger = LoggerFactory.getLogger(UserService.class.getName());
+    private static  final Logger logger = LoggerFactory.getLogger(UserService.class.getName());
 
-    public UserModel createUser(UserModel user){
-        logger.info("Create one User!");
-        return userRepository.save(user);
+    public UserDto create(UserDto user){
+        logger.info("Creating user");
+        var entity = parseObject(user, UserEntity.class);
+        var savedEntity = userRepository.save(entity);
+        return parseObject(savedEntity, UserDto.class);
     }
 
-    public List<UserModel> findAllUsers(){
-        logger.info("Finding All User!");
-        return userRepository.findAll();
+
+    public List<UserDto> findAll(){
+        logger.info("Finding all users");
+        return parseListObject(userRepository.findAll(), UserDto.class);
     }
 
-    public UserModel findById(Long id){
-        logger.info("Finding one User!");
-        return userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No Records found for this ID"));
+    public UserDto findById(Long id){
+        logger.info("Finding user with id: {}", id);
+        var entity = userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No Records found for this ID"));
+        return parseObject(entity, UserDto.class);
     }
 
-    public UserModel updateUser(Long id, UserModel user){
-        UserModel entity = this.findById(id);
-        entity.setFirstName(user.getFirstName());
-        entity.setLastName(user.getLastName());
-        entity.setAddress(user.getAddress());
-        entity.setGender(user.getGender());
-        return userRepository.save(user);
+    public UserDto update(Long id, UserDto user){
+        logger.info("Updating user with id: {}", id);
+        var entity = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No Records found for this ID"));
+        if (user.getFirstName() != null) {
+            entity.setFirstName(user.getFirstName());
+        }
+        if (user.getLastName() != null) {
+            entity.setLastName(user.getLastName());
+        }
+        if (user.getAddress() != null) {
+            entity.setAddress(user.getAddress());
+        }
+        if (user.getGender() != null) {
+            entity.setGender(user.getGender());
+        }
+        return parseObject(userRepository.save(entity), UserDto.class);
     }
 
-    public void deleteUser(Long id){
-        UserModel entity = this.findById(id);
+    public void delete(Long id){
+        logger.info("Deleting user with id: {}", id);
+        var entity = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No Records found for this ID"));
+
         userRepository.delete(entity);
     }
 }

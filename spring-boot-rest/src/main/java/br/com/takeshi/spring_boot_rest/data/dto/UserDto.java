@@ -1,31 +1,22 @@
-package br.com.takeshi.spring_boot_rest.model;
-
-import jakarta.persistence.*;
+package br.com.takeshi.spring_boot_rest.data.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name = "user")
-public class UserModel implements Serializable {
+public class UserDto implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "first_name", nullable = false, length = 80)
     private String firstName;
-    @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
-    @Column(nullable = false, length = 100)
     private String address;
-    @Column(nullable = false, length = 6)
     private String gender;
 
-    public UserModel() {
+    public UserDto() {
     }
 
-    public UserModel(Long id, String firstName, String lastName, String address, String gender) {
+    public UserDto(Long id, String firstName, String lastName, String address, String gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -75,7 +66,7 @@ public class UserModel implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof UserModel userModel)) return false;
+        if (!(o instanceof UserDto userModel)) return false;
         return Objects.equals(getId(), userModel.getId()) && Objects.equals(getFirstName(), userModel.getFirstName()) && Objects.equals(getLastName(), userModel.getLastName()) && Objects.equals(getAddress(), userModel.getAddress()) && Objects.equals(getGender(), userModel.getGender());
     }
 

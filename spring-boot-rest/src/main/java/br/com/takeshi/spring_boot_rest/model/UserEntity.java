@@ -1,24 +1,31 @@
-package br.com.takeshi.spring_boot_rest.data.dto;
+package br.com.takeshi.spring_boot_rest.model;
 
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class UserModelDto implements Serializable {
-
+@Entity
+@Table(name = "users")
+public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "first_name", nullable = false, length = 80)
     private String firstName;
+    @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
+    @Column(nullable = false, length = 100)
     private String address;
+    @Column(nullable = false, length = 6)
     private String gender;
 
-    public UserModelDto() {
+    public UserEntity() {
     }
 
-    public UserModelDto(Long id, String firstName, String lastName, String address, String gender) {
+    public UserEntity(Long id, String firstName, String lastName, String address, String gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -68,8 +75,8 @@ public class UserModelDto implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof UserModelDto userModel)) return false;
-        return Objects.equals(getId(), userModel.getId()) && Objects.equals(getFirstName(), userModel.getFirstName()) && Objects.equals(getLastName(), userModel.getLastName()) && Objects.equals(getAddress(), userModel.getAddress()) && Objects.equals(getGender(), userModel.getGender());
+        if (!(o instanceof UserEntity userEntity)) return false;
+        return Objects.equals(getId(), userEntity.getId()) && Objects.equals(getFirstName(), userEntity.getFirstName()) && Objects.equals(getLastName(), userEntity.getLastName()) && Objects.equals(getAddress(), userEntity.getAddress()) && Objects.equals(getGender(), userEntity.getGender());
     }
 
     @Override
