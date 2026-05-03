@@ -15,5 +15,5 @@ spring:
     ope-in-view: false
 logging:
   level:
-    root: WARN
+#    root: WARN
     br.com.takeshi: DEBUG
